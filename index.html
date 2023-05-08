@@ -27,20 +27,20 @@
                                         <label for="height" class="form-label fw-bold">
                                             Height (m):
                                         </label>
-                                        <input class="form-control" type="number" step="0.01" id="height" placeholder="Height in meter" name="height" required />
+                                        <input class="form-control" type="number" step="0.01" id="heightInput" placeholder="Height in meter" name="height" required />
                                     </div>
 
                                     <div class="form-group mb-3" controlId="formBasicWeight">
                                         <label for="weight" class="form-label fw-bold">
                                             Weight (kg):
                                         </label>
-                                        <input type="number" class="form-control" id="weight" placeholder="Weight in kilogram" namree="weight" required />
+                                        <input type="number" class="form-control" id="weightInput" placeholder="Weight in kilogram" namree="weight" required />
                                     </div>
 
                                     <br>
 
                                     <div class="d-grid w-50 mx-auto">
-                                        <input class="btn btn-dark rounded-0 fw-bold" type="submit" name="calc" value="CALCULATE">
+                                        <input class="btn btn-dark rounded-0 fw-bold" type="submit" name="calc" id="calculateBtn" value="CALCULATE">
                                     </div>
                                 </form>
                                 <div class="container">
@@ -58,6 +58,47 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const height = document.querySelector("#heightInput");
+        const weight = document.querySelector("#weightInput");
+        const bmi = document.querySelector("#bmi");
+        const message = document.querySelector("#message");
+        const heading = document.querySelector("#heading");
+        const calculate = document.querySelector('#calculateBtn');
+
+        calculate.addEventListener("click", (e) => {
+            e.preventDefault();
+            let h = height.value;
+            let w = weight.value;
+            let bmiValue = (w / (h * h)).toFixed(2);
+            if (isNaN(bmiValue) || bmiValue <= 0) {
+                bmiValue = "Invalid Input(s)";
+                message.innerHTML = "Enter positive numbers only";
+                message.style.color = "red";
+                message.classList.add("fw-bold");
+            } else {
+                if (bmiValue < 18.5) {
+                    message.innerHTML = "UNDERWEIGHT";
+                    message.style.color = "red";
+                    heading.style.color = "red";
+                } else if (bmiValue >= 18.5 && bmiValue <= 24.9) {
+                    message.innerHTML = "NORMAL";
+                    message.style.color = "black";
+                    heading.style.color = "black";
+                } else if (bmiValue >= 25 && bmiValue <= 29.9) {
+                    message.innerHTML = "OVERWEIGHT";
+                    message.style.color = "tomato";
+                    heading.style.color = "tomato";
+                } else if (bmiValue >= 30) {
+                    message.innerHTML = "OBESE";
+                    message.style.color = "red";
+                    heading.style.color = "red";
+                }
+            }
+            bmi.innerHTML = `: ` + bmiValue;
+        });
+    </script>
 </body>
 
 </html>
